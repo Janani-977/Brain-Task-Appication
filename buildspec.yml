@@ -3,19 +3,16 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com
+
   build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region ap-south-1 \
-        | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com
+      - echo "Building Docker image..."
+      - docker build -t 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image2 .
 
-      - echo Building the Docker image...
-      - docker build \
-          -t 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image1 \
-          .
-
-      - echo Pushing the Docker image...
-      - docker push \
-          896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image1
+  post_build:
+    commands:
+      - echo "Pushing image to ECR..."
+      - docker push 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image2
+      - echo "Build and push completed!"
