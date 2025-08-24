@@ -1,0 +1,7 @@
+version: 0.0
+os: linux
+hooks:
+  AfterInstall:
+    - location: deploy-to-eks.sh
+      timeout: 300
+      runas: root
