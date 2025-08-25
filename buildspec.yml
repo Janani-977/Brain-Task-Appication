@@ -3,6 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo Logging in to Docker Hub...
+      - docker login -u janani977 -p $DOCKER_HUB_PASSWORD
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo
@@ -14,7 +16,7 @@ phases:
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
-      - docker push 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image1
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"janani-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
