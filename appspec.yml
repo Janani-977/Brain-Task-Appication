@@ -1,7 +1,9 @@
 version: 0.0
-os: linux
-hooks:
-  AfterInstall:
-    - location: deploy-to-eks.sh
-      timeout: 300
-      runas: root
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION_PLACEHOLDER>
+        LoadBalancerInfo:
+          ContainerName: janani-container
+          ContainerPort: 80
