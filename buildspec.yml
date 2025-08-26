@@ -9,16 +9,23 @@ phases:
       - IMAGE_TAG=new-image1
       - echo $REPOSITORY_URI
       - echo $IMAGE_TAG
+      - echo Configuring kubectl for EKS...
+      - aws eks update-kubeconfig --region ap-south-1 --name cluster1
+
   build:
     commands:
       - echo Building the Docker image...
       - docker build -t grant-app .
       - docker tag grant-app:latest $REPOSITORY_URI:$IMAGE_TAG
       - echo Build complete.
+
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Verifying deployment.yaml exists...
+      - ls -l
+      - cat deployment.yaml
       - echo Deploying to EKS...
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yml
