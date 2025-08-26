@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: janani-deployment
+  name: janani-app
 spec:
   replicas: 2
   selector:
@@ -13,7 +13,7 @@ spec:
         app: janani-app
     spec:
       containers:
-        - name: janani-container
-          image: 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image1
-          ports:
-            - containerPort: 80
+      - name: janani-container
+        image: 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image1
+        ports:
+        - containerPort: 80
