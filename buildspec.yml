@@ -3,30 +3,25 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo Logging in to Docker Hub...
+      - echo $DOCKER_HUB_PASSWORD | docker login -u jamani977 --password-stdin
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo
       - IMAGE_TAG=new-image1
-      - echo $REPOSITORY_URI
-      - echo $IMAGE_TAG
-      - echo Configuring kubectl for EKS...
-      - aws eks update-kubeconfig --region ap-south-1 --name cluster1
 
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t grant-app .
-      - docker tag grant-app:latest $REPOSITORY_URI:$IMAGE_TAG
-      - echo Build complete.
+      - docker build -t new-image1 .
+      - docker tag new-image1:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Verifying deployment.yaml exists...
-      - ls -l
-      - cat deployment.yaml
-      - echo Deploying to EKS...
-      - kubectl apply -f deployment.yaml
+      - echo Configuring kubectl for EKS...
+      - aws eks update-kubeconfig --region ap-south-1 --name cluster1
+      - echo Applying Kubernetes manifests...
+      - kubectl apply -f deployment.yml
       - kubectl apply -f service.yml
-      - echo Deployment complete.
