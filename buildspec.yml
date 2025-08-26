@@ -26,6 +26,7 @@ phases:
     commands:
       - echo Deploying to EKS...
       - kubectl apply -f deployment.yaml
+      - kubectl apply -f Service.yaml
       - echo Deployment complete.
 
 artifacts:
