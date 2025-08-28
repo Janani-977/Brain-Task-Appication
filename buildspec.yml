@@ -8,6 +8,8 @@ phases:
       - echo Updating kubeconfig for EKS...
       - aws eks update-kubeconfig --region ap-south-1 --name brain-task-cluster
       - export KUBECONFIG=$HOME/.kube/config
+      - aws sts get-caller-identity
+      - kubectl config view
       - echo Verifying cluster access...
       - kubectl get nodes
 
