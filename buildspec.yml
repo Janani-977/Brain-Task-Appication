@@ -4,9 +4,12 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com
       - echo Updating kubeconfig for EKS...
       - aws eks update-kubeconfig --region ap-south-1 --name brain-task-cluster
+      - export KUBECONFIG=$HOME/.kube/config
+      - echo Verifying cluster access...
+      - kubectl get nodes
 
   build:
     commands:
