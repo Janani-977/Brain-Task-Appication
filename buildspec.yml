@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo
+      - echo Updating kubeconfig for EKS...
+      - aws eks update-kubeconfig --region ap-south-1 --name janani-cluster
+
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t brain-task-image .
+      - docker tag brain-task-image:latest 896924684590.dkr.ecr.ap-south-1.amazonaws.com
+      - echo Pushing image to ECR...
+      - docker push 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:latest
+
+  post_build:
+    commands:
+      - echo Deploying to EKS...
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
+      - echo Deployment complete.
