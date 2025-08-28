@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: brain-task-container
-        image: 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:brain-task-image
+        image: 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:latest
         ports:
         - containerPort: 3000

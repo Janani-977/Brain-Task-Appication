@@ -11,8 +11,8 @@ phases:
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t brain-task-image .
-      - docker tag brain-task-image:latest 896924684590.dkr.ecr.ap-south-1.amazonaws.com
+      - docker build -t janani-repo:latest .
+      - docker tag janani-repo:latest 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:latest
       - echo Pushing image to ECR...
       - docker push 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:latest
 
