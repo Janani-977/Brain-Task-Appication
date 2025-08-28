@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: janani-app
+  name: brain-task-deployment
+  labels:
+    app: brain-task
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: janani-app
+      app: brain-task
   template:
     metadata:
       labels:
-        app: janani-app
+        app: brain-task
     spec:
       containers:
-      - name: janani-container
-        image: 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:new-image1
+      - name: brain-task-container
+        image: 896924684590.dkr.ecr.ap-south-1.amazonaws.com/janani-repo:brain-task-image
         ports:
-        - containerPort: 80
+        - containerPort: 3000

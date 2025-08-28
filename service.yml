@@ -2,13 +2,15 @@ apiVersion: v1
 kind: Service
 apiVersion: v1
 kind: Service
+apiVersion: v1
+kind: Service
 metadata:
-  name: janani-service
+  name: brain-task-service
 spec:
+  type: LoadBalancer
   selector:
-    app: janani-app
+    app: brain-task
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
-  type: LoadBalancer
+      targetPort: 3000
