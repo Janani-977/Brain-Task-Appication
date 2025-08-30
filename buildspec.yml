@@ -27,8 +27,6 @@ phases:
   post_build:
     commands:
      - echo Deploying to EKS...
--    - kubectl apply -f deployment.yaml --validate=false
--    - kubectl apply -f service.yml --validate=false
-+    - kubectl apply -f deployment.yaml --validate=false
-+    - kubectl apply -f service.yaml --validate=false
+     - kubectl apply -f deployment.yaml --validate=false
+     - kubectl apply -f service.yaml --validate=false
      - echo Deployment complete.
